@@ -188,7 +188,7 @@ class ProblemSolutions {
 
     public int numGroups(int[][] adjMatrix) {
         int numNodes = adjMatrix.length;
-        Map<Integer,List<Integer>> graph = new HashMap();
+        Map<Integer,List<Integer>> graph = new HashMap<>();
 
         /*
          * Converting the Graph Adjacency Matrix to
@@ -200,9 +200,9 @@ class ProblemSolutions {
             for(int j = 0; j < numNodes; j++){
                 if( adjMatrix[i][j] == 1 && i != j ){
                     // Add AdjList for node i if not there
-                    graph.putIfAbsent(i, new ArrayList());
+                    graph.putIfAbsent(i, new ArrayList<>());
                     // Add AdjList for node j if not there
-                    graph.putIfAbsent(j, new ArrayList());
+                    graph.putIfAbsent(j, new ArrayList<>());
 
                     // Update node i adjList to include node j
                     graph.get(i).add(j);
