@@ -106,7 +106,7 @@ public class Graph {
 
     // ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME/SECTION AT TOP OF FILE
 
-    int[] = incoming = new int[numVertices];
+    int[] incoming = new int[numVertices];
 
     // Count incoming edges
     for (int src = 0; src < numVertices; src++) {
@@ -133,3 +133,4 @@ public class Graph {
     
     return vertexValues.get(rootIndex);
   } 
+}
