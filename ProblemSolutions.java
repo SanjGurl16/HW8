@@ -1,6 +1,6 @@
 /******************************************************************
  *
- *   ADD YOUR NAME / SECTION NUMBER HERE
+ *   Sanjana Kaushik / COMP 272
  *
  *   This java file contains the problem solutions of canFinish and
  *   numGroups methods.
@@ -72,18 +72,41 @@ class ProblemSolutions {
      * @return boolean          - True if all exams can be taken, else false.
      */
 
-    public boolean canFinish(int numExams, 
-                             int[][] prerequisites) {
+    public boolean canFinish(int numExams, int[][] prerequisites) {
       
         int numNodes = numExams;  // # of nodes in graph
 
         // Build directed graph's adjacency list
-        ArrayList<Integer>[] adj = getAdjList(numExams, 
-                                        prerequisites); 
+        ArrayList<Integer>[] adj = getAdjList(numExams, prerequisites); 
 
         // ADD YOUR CODE HERE - ADD YOUR NAME / SECTION AT TOP OF FILE
-        return false;
 
+        int[] visited = new int[numExams]; // 0 = unvisited, 1 = visiting, 2 = visited
+
+        // Check each exam (node) to see if there's a cycle starting from it
+        for (int i = 0; i < numExams; i++) {
+            if (hasCycle(i, adj, visited)) {
+                return false; // If a cycle is found, return false (not all exams can be completed)
+            }
+        }
+        return true; // No cycles found, all exams can be completed
+    }
+
+    // Helper method to detect cycles using Depth-First Search
+    private boolean hasCycle(int node, ArrayList<Integer>[] adj, int[] visited) {
+        if (visited[node] == 1) return true;     // cycle detected
+        if (visited[node] == 2) return false;    // already processed
+
+        visited[node] = 1; // mark as visiting
+
+        // Visit all the neighboring nodes
+        for (int neighbor : adj[node]) {
+            if (hasCycle(neighbor, adj, visited)) {
+                return true; // If any neighbor has a cycle, return true
+            }
+        }
+        visited[node] = 2; // mark as visited
+        return false; // No cycle detected from this node
     }
 
 
@@ -192,7 +215,28 @@ class ProblemSolutions {
 
         // YOUR CODE GOES HERE - you can add helper methods, you do not need
         // to put all code in this method.
-        return -1;
+        boolean[] visited = new boolean[numNodes]; // Array to keep track of visited nodes
+        int groupCount = 0;
+
+        // Traverse all nodes in the graph
+        for (int i = 0; i < numNodes; i++) {
+            if (!visited[i]) { // If the node hasn't been visited, it's part of a new group
+                dfs(i, graph, visited); // Visit all nodes in this group
+                groupCount++; // Increment the group count
+            }
+        }
+        
+        return groupCount;
     }
 
-}
+    // Depth-First Search to mark all connected nodes in the same group
+    private void dfs(int node, Map<Integer, List<Integer>> graph, boolean[] visited) {
+        visited[node] = true; // Mark the current node as visited
+
+        // Visit all neighbors of the current node
+        for (int neighbor : graph.getOrDefault(node, new ArrayList<>())) {
+            if (!visited[neighbor]) {
+                dfs(neighbor, graph, visited); // Recursively visit unvisited neighbors
+            }
+        }
+    }
